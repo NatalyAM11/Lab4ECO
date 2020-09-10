@@ -37,7 +37,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/ThirdNumber"
+            android:id="@+id/thirdNumber"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="92dp"
@@ -50,7 +50,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/FouurNumber"
+            android:id="@+id/fourNumber"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="92dp"
