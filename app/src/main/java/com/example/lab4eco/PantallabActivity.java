@@ -51,47 +51,31 @@ public class PantallabActivity extends AppCompatActivity implements View.OnClick
                 () -> {
 
                     try {
-
                         Thread.sleep(500);
 
-                        //  for( int i=0; i<50; i++) {
-
-                        //lo paso a int
-                        //numerodef=Integer.parseInt(numeroCuatro);
-
-
-                        //lo igualo con i
-                        // i=numerodef;
 
                         //confirmo la conexion con el numero que introdujo el usuario
-
                         InetAddress inet = InetAddress.getByName("192.168.0."+ numero);
                         String samsungJ7 = inet.getHostAddress();
-                        boolean conectado = inet.isReachable(10000);
+                        boolean conectado = inet.isReachable(1000);
 
 
                         //letrero del status
                         String estado = status.getText().toString();
 
 
-                        //valido que se si esta conectado y pinte el estado
+                        //valido que se si esta conectado y pinte recibido....si no, da perdido
                         if(conectado) {
+                            estado = "Recibido";
+                        }else{ estado = "Perdido";}
 
-                            estado += "Recibido";
-
-
-                        }
-
-                        //si no se da la conexion
-                        if(conectado==false){
-                            estado += "Perdido";
-                        }
-
+                         while(conectado){
                         //pinto el estado
-                        String finalEstado = estado;
-                        runOnUiThread(() -> status.setText(" " + finalEstado +" \n "));
+                            String finalEstado = estado;
+                            runOnUiThread(() -> status.append(finalEstado + "\n"));
+                         }
 
-                        Log.e("mensaje", String.valueOf(conectado));
+                        //Log.e("mensaje", String.valueOf(conectado));
                         //}
 
                     } catch (UnknownHostException e) {
