@@ -40,25 +40,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         numero= new ArrayList<String>();
 
 
+        bPing.setOnClickListener(this);
+        bBuscar.setOnClickListener(this);
+    }
+
+    public void onClick(View view){
+
         String numeroUno= firstNumbers.getText().toString();
         String numeroDos= secondNumbers.getText().toString();
         String numeroTres= thirdNumber.getText().toString();
         String numeroCuatro= fourNumber.getText().toString();
 
-        //numerodef=Integer.parseInt(numeroCuatro);
-
-
-        bPing.setOnClickListener(this);
-        bBuscar.setOnClickListener(this);
-        conection();
-
-    }
-
-    public void onClick(View view){
-
             switch (view.getId()){
                 case R.id.bPing:
+                    //no deja pasar al usuario hasta que llene todo
+                    if(numeroUno.trim().isEmpty() || numeroDos.trim().isEmpty() || numeroTres.trim().isEmpty()||  numeroCuatro.trim().isEmpty()){
+                        runOnUiThread( ()-> Toast.makeText(this, " Uno de los campos no fue llenado", Toast.LENGTH_LONG).show());
+                        return;
+                    }
+
+
+                    numerodef=Integer.parseInt(numeroCuatro);
+
                     Intent i = new Intent(this, PantallabActivity.class);
+                    i.putExtra("numero", numerodef);
                     startActivity(i);
                     break;
 
@@ -69,55 +74,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
     }
-
-    public void conection() {
-
-
-        new Thread(
-                () -> {
-
-                    try {
-
-
-                        for( int i=0; i<50; i++) {
-
-                            //Tomo el ultimo numero que ingrese el usuario
-                            String numeroCuatro= fourNumber.getText().toString();
-
-
-                            if(numeroCuatro.trim().isEmpty()){
-                                runOnUiThread( ()-> Toast.makeText(this, " Uno de los campos no fue llenado", Toast.LENGTH_LONG).show());
-                                return;
-                            }
-
-
-                            //lo paso a int
-                            numerodef=Integer.parseInt(numeroCuatro);
-
-
-                            //lo igualo con i
-                            i=numerodef;
-
-                            //conexion
-                            InetAddress inet = InetAddress.getByName("192.168.0"+i);
-                            String samsungJ7 = inet.getHostAddress();
-                            boolean conectado = inet.isReachable(5000);
-                            Log.e("mensaje", String.valueOf(conectado));
-                        }
-
-                    } catch (UnknownHostException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-
-                }
-
-
-        ).start();
-    }
-
 
 
 }
