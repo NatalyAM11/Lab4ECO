@@ -31,12 +31,13 @@ public class pantallac extends AppCompatActivity implements View.OnClickListener
 
         bRegresarC= findViewById(R.id.bRegresarC);
         statusc= findViewById(R.id.statusc);
+        bRegresarC.setOnClickListener(this);
         host= new ArrayList<String>();
 
-        bRegresarC.setOnClickListener(this);
-        buscar();
 
         Log.e("elnumero", String.valueOf(numero));
+        buscar();
+
 
     }
 
@@ -49,35 +50,37 @@ public class pantallac extends AppCompatActivity implements View.OnClickListener
         startActivity(i);
     }
 
+
     public void buscar(){
 
         new Thread(
 
             ()->{
-                try {
 
-                    Thread.sleep(500);
+                for(int i=0; i<255; i++) {
 
-                    for(int i=0; i<255; i++) {
-
-                        InetAddress inet = InetAddress.getByName("192.168.0."+i);
+                    try {
+                        
+                        String h1 = "192.168.0." + i;
+                        InetAddress inet = InetAddress.getByName(h1);
                         //String h1 = inet.getHostAddress();
-                        String h1 = "192.168.0."+ numero;
+
                         boolean conectado = inet.isReachable(1000);
 
-                        String estadoC = statusc.getText().toString();
+                        runOnUiThread(
+                                () -> {
 
+                                    if (conectado == true) {
+                                        statusc.append(h1 + "\n");
+                                    }
+                                }
+                        );
 
-                        if (conectado) {
-                            host.add(h1+ conectado);
-                            runOnUiThread(() -> statusc.append(h1 + "\n"));
-                        }
+                    } catch (UnknownHostException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-
-                } catch (UnknownHostException | InterruptedException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
 
             }
