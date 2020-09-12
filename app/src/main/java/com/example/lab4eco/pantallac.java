@@ -60,7 +60,7 @@ public class pantallac extends AppCompatActivity implements View.OnClickListener
                 for(int i=0; i<255; i++) {
 
                     try {
-                        
+
                         String h1 = "192.168.0." + i;
                         InetAddress inet = InetAddress.getByName(h1);
                         //String h1 = inet.getHostAddress();
@@ -69,7 +69,7 @@ public class pantallac extends AppCompatActivity implements View.OnClickListener
 
                         runOnUiThread(
                                 () -> {
-
+                                    //ya los pinto todos
                                     if (conectado == true) {
                                         statusc.append(h1 + "\n");
                                     }
