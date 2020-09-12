@@ -45,21 +45,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void onClick(View view){
-
+        //los demas numeros
         String numeroUno= firstNumbers.getText().toString();
         String numeroDos= secondNumbers.getText().toString();
         String numeroTres= thirdNumber.getText().toString();
         String numeroCuatro= fourNumber.getText().toString();
 
+
+        //no deja pasar al usuario hasta que llene todo
+        if(numeroUno.trim().isEmpty() || numeroDos.trim().isEmpty() || numeroTres.trim().isEmpty()||  numeroCuatro.trim().isEmpty()){
+            runOnUiThread( ()-> Toast.makeText(this, " Uno de los campos no fue llenado", Toast.LENGTH_LONG).show());
+            return;
+        }
+
             switch (view.getId()){
+
                 case R.id.bPing:
-                    //no deja pasar al usuario hasta que llene todo
-                    if(numeroUno.trim().isEmpty() || numeroDos.trim().isEmpty() || numeroTres.trim().isEmpty()||  numeroCuatro.trim().isEmpty()){
-                        runOnUiThread( ()-> Toast.makeText(this, " Uno de los campos no fue llenado", Toast.LENGTH_LONG).show());
-                        return;
-                    }
 
-
+                    //paso a la pantalla b y mando el dato de numero
                     numerodef=Integer.parseInt(numeroCuatro);
 
                     Intent i = new Intent(this, PantallabActivity.class);
@@ -68,7 +71,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     break;
 
                 case R.id.bBuscar:
+
+                    //paso a la pantalla c
                     Intent a= new Intent(this, pantallac.class);
+                    a.putExtra("numero", numerodef);
                     startActivity(a);
                     break;
 
