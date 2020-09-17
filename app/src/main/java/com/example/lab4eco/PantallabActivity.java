@@ -18,7 +18,8 @@ public class PantallabActivity extends AppCompatActivity implements View.OnClick
 
     private TextView status;
     private Button bRegresarB;
-    int numero;
+    int numero, yanomas;
+    String samsungJ7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,15 +30,19 @@ public class PantallabActivity extends AppCompatActivity implements View.OnClick
 
         status= findViewById(R.id.status);
         bRegresarB=findViewById(R.id.bRegresarB);
-
-        conectar();
-
         bRegresarB.setOnClickListener(this);
         Log.e("elnumero", String.valueOf(numero));
+
+        //con esta variable defino las veces que va a pintar el status
+        yanomas=0;
+
+        //metodo de conexion
+        conectar();
+
+
     }
 
     public void onClick (View view){
-
 
         //me devuelvo a la pantalla a
         Intent i= new Intent(this,MainActivity.class);
@@ -47,45 +52,47 @@ public class PantallabActivity extends AppCompatActivity implements View.OnClick
     }
 
     public void conectar(){
+
         new Thread(
+
                 () -> {
 
-                    try {
-                        Thread.sleep(500);
+                    while(yanomas<5) {
 
 
-                        //confirmo la conexion con el numero que introdujo el usuario
-                        InetAddress inet = InetAddress.getByName("192.168.0."+ numero);
-                        String samsungJ7 = inet.getHostAddress();
-                        boolean conectado = inet.isReachable(1000);
+                        try {
+                            yanomas++;
+
+                            //confirmo la conexion con el numero que introdujo el usuario
+                            InetAddress inet = InetAddress.getByName("192.168.0." + numero);
+                            samsungJ7 = inet.getHostAddress();
+                            boolean conectado = inet.isReachable(1000);
 
 
-                        //letrero del status
-                        String estado = status.getText().toString();
+                            runOnUiThread(
+                                    () -> {
+                                        //valido que se si esta conectado y pinte recibido....si no, da perdido
+                                        if (conectado == true) {
+                                            status.append("Recibido"+ "\n");
 
+                                        } else {
+                                            status.append("Perdidon" + "\n");
+                                        }
+                                    }
+                            );
+                            Thread.sleep(2000);
 
-                        //valido que se si esta conectado y pinte recibido....si no, da perdido
-                        if(conectado) {
-                            estado = "Recibido";
-                        }else{ estado = "Perdido";}
+                            //Log.e("mensaje", String.valueOf(conectado));
+                            //}
 
-                         while(conectado){
-                        //pinto el estado
-                            String finalEstado = estado;
-                            runOnUiThread(() -> status.append(finalEstado + "\n"));
-                         }
-
-                        //Log.e("mensaje", String.valueOf(conectado));
-                        //}
-
-                    } catch (UnknownHostException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        } catch (UnknownHostException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
-
 
                 }
 

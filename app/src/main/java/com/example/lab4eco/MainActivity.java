@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText fourNumber;
     private Button bPing;
     private Button bBuscar;
-    ArrayList<String> numero;
     private int numerodef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +36,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fourNumber= findViewById(R.id.fourNumber);
         bPing= findViewById(R.id.bPing);
         bBuscar= findViewById(R.id.bBuscar);
-        numero= new ArrayList<String>();
+
 
 
         bPing.setOnClickListener(this);
         bBuscar.setOnClickListener(this);
+
+
     }
 
     public void onClick(View view){
